@@ -19,14 +19,16 @@ package org.kocakosm.jblake2;
 import java.util.Arrays;
 
 /**
- * The Blake2b digest algorithm. Instances of this class are not thread safe.
- * This class implements the algorithm as specified in RFC 7693. The original
- * paper (https://blake2.net/blake2.pdf) defines some additional variants with
- * features such as salting, personalization and tree hashing. These features
- * are considered optional and not covered by the RFC.
+ * The BLAKE2b digest algorithm. Instances of this class are not thread safe.
+ * This class implements the BLAKE2b algorithm as specified in RFC 7693. The
+ * <a href="https://blake2.net/blake2.pdf">original paper</a> defines some
+ * additional variants with features such as salting, personalization and tree
+ * hashing. These features are considered optional and not covered by the RFC.
+ * BLAKE2b can be directly keyed, making it functionally equivalent to a Message
+ * Authentication Code (it does not require a special construction like HMAC).
  *
- * @see https://blake2.net
- * @see https://tools.ietf.org/html/rfc7693
+ * @see <a href="https://blake2.net">blake2.net</a>
+ * @see <a href="https://tools.ietf.org/html/rfc7693">RFC 7693</a>
  *
  * @author Osman Koçak
  */
@@ -62,12 +64,12 @@ public final class Blake2b
 	private int c; // number of bytes in the buffer
 
 	/**
-	 * Creates a new {@code Blake2b}.
+	 * Creates a new unkeyed {@code Blake2b} instance.
 	 *
 	 * @param digestLength the desired digest's length (in bytes).
 	 *
 	 * @throws IllegalArgumentException if {@code digestLength} is not in
-	 *	the [1, 64] range.
+	 *	the {@code [1, 64]} range.
 	 */
 	public Blake2b(int digestLength)
 	{
@@ -75,18 +77,18 @@ public final class Blake2b
 	}
 
 	/**
-	 * Creates a new {@code Blake2b}. If the given key's length is zero,
+	 * Creates a new keyed {@code Blake2b} instance. If the key is empty,
 	 * then the created instance is equivalent to an unkeyed digest. The
-	 * key can be safely erased from memory after this constructor has been
-	 * called.
+	 * given key can be safely erased from memory after this constructor has
+	 * been called.
 	 *
 	 * @param key the key to use.
 	 * @param digestLength the desired digest's length (in bytes).
 	 *
 	 * @throws NullPointerException if {@code key} is {@code null}.
 	 * @throws IllegalArgumentException if {@code key}'s length is greater
-	 *	than {@code 64} or if {@code digestLength} is not in the [1, 64]
-	 *	range.
+	 *	than {@code 64} or if {@code digestLength} is not in the
+	 *	{@code [1, 64]} range.
 	 */
 	public Blake2b(byte[] key, int digestLength)
 	{
@@ -111,9 +113,10 @@ public final class Blake2b
 	}
 
 	/**
-	 * Erases ("burns") the key and resets the engine. After this method has
-	 * been called, this instance can still be used as a standard (unkeyed)
-	 * digest.
+	 * Erases the key and resets the digest, making this instance
+	 * functionally equivalent to a newly created unkeyed digest. If this
+	 * instance is already unkeyed, calling this method has no other effect
+	 * than resetting the digest.
 	 */
 	public void burn()
 	{
@@ -144,7 +147,7 @@ public final class Blake2b
 	}
 
 	/**
-	 * Resets the engine. Note that this does not erase the key.
+	 * Resets the digest. Note that this does not erase the key.
 	 *
 	 * @return this object.
 	 */
@@ -233,7 +236,7 @@ public final class Blake2b
 	 * Performs a final update on the digest using the specified array of
 	 * bytes, then completes the digest computation. That is, this method
 	 * first calls {@link #update(byte...)}, passing the input array to the
-	 * update method, then calls {@link #digest()}. Note that the engine is
+	 * update method, then calls {@link #digest()}. Note that the digest is
 	 * reset after this call is made.
 	 *
 	 * @param input the array of bytes with which to update the digest
@@ -252,7 +255,7 @@ public final class Blake2b
 	 * Performs a final update on the digest using the specified data bytes,
 	 * then completes the digest computation. That is, this method first
 	 * calls {@link #update(byte[], int, int)}, passing the input array to
-	 * the update method, then calls {@link #digest()}. Note that the engine
+	 * the update method, then calls {@link #digest()}. Note that the digest
 	 * is reset after this call is made.
 	 *
 	 * @param input the array of bytes.
@@ -272,7 +275,7 @@ public final class Blake2b
 	}
 
 	/**
-	 * Completes the hash computation. Note that the engine is reset after
+	 * Completes the hash computation. Note that the digest is reset after
 	 * this call is made.
 	 *
 	 * @return the resulting digest.
