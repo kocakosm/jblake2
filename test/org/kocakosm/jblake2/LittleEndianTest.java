@@ -33,7 +33,7 @@ import org.junit.Test;
  */
 public final class LittleEndianTest
 {
-	private static final Random RND = new Random();
+	private static final Random PRNG = new Random();
 
 	@Test
 	public void testEncodeLong()
@@ -59,7 +59,7 @@ public final class LittleEndianTest
 	public void testEncodeAndDecodeLong()
 	{
 		for (int i = 0; i < 10000; i++) {
-			long n = RND.nextLong();
+			long n = PRNG.nextLong();
 			assertEquals(n, decodeLong(encode(n)));
 		}
 	}
