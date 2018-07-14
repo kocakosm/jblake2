@@ -16,17 +16,14 @@
 
 package org.kocakosm.jblake2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-import java.io.BufferedReader;
+import org.kocakosm.pitaya.io.Resource;
+import org.kocakosm.pitaya.util.BaseEncoding;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import org.junit.Test;
@@ -39,8 +36,8 @@ import org.junit.Test;
 public final class Blake2bTest
 {
 	private static final Random PRNG = new Random();
-	private static final byte[] DATA = Base16.decode("a55242b138855bc1");
-	private static final byte[] HASH = Base16.decode("5d24a4f6a40996d4");
+	private static final byte[] DATA = BaseEncoding.BASE_16.decode("a55242b138855bc1");
+	private static final byte[] HASH = BaseEncoding.BASE_16.decode("5d24a4f6a40996d4");
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testUnkeyedConstructorWithNegativeDigestLength()
@@ -168,44 +165,16 @@ public final class Blake2bTest
 	@Test
 	public void checkTestVectors() throws IOException
 	{
-		// test vectors from https://blake2.net and RFC 7693
-		InputStream file = getResource("test-vectors.txt");
-		List<String> lines = readLines(file, StandardCharsets.UTF_8);
-		for (int i = 0; i < lines.size(); i += 4) {
-			byte[] in = readLineValue(lines.get(i));
-			byte[] key = readLineValue(lines.get(i + 1));
-			byte[] hash = readLineValue(lines.get(i + 2));
-			Blake2b blake2b = new Blake2b(key, hash.length);
-			assertArrayEquals(hash, blake2b.digest(in));
+		Resource resource = Resource.find("blake2b-test-vectors.json", getClass());
+		for (TestVector testVector : TestVectors.read(resource.getURL())) {
+			checkTestVector(testVector);
 		}
 	}
 
-	private InputStream getResource(String name)
+	private void checkTestVector(TestVector testVector)
 	{
-		return getClass().getResourceAsStream(name);
-	}
-
-	private List<String> readLines(InputStream in, Charset charset)
-		throws IOException
-	{
-		try (BufferedReader reader = getReader(in, charset)) {
-			List<String> lines = new ArrayList<>();
-			String line = reader.readLine();
-			while (line != null) {
-				lines.add(line);
-				line = reader.readLine();
-			}
-			return Collections.unmodifiableList(lines);
-		}
-	}
-
-	private BufferedReader getReader(InputStream in, Charset charset)
-	{
-		return new BufferedReader(new InputStreamReader(in, charset));
-	}
-
-	private byte[] readLineValue(String line)
-	{
-		return Base16.decode(line.split(":")[1].trim());
+		byte[] expected = testVector.getOutput();
+		Blake2b blake2b = new Blake2b(testVector.getKey(), expected.length);
+		assertArrayEquals(expected, blake2b.digest(testVector.getInput()));
 	}
 }

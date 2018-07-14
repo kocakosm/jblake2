@@ -16,29 +16,45 @@
 
 package org.kocakosm.jblake2;
 
+import org.kocakosm.pitaya.util.XArrays;
+
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Base16 (RFC 4648) decoding.
+ * Represents a BLAKE2 test vector.
  *
  * @author Osman Koçak
  */
-final class Base16
+final class TestVector
 {
-	public static byte[] decode(String hex)
+	@SerializedName("key")
+	private final byte[] key;
+
+	@SerializedName("in")
+	private final byte[] input;
+
+	@SerializedName("out")
+	private final byte[] output;
+
+	TestVector(byte[] key, byte[] input, byte[] output)
 	{
-		int len = hex.length();
-		if (len % 2 != 0) {
-			throw new IllegalArgumentException();
-		}
-		byte[] data = new byte[len / 2];
-		for (int i = 0; i < len; i += 2) {
-			int val = Integer.parseInt(hex.substring(i, i + 2), 16);
-			data[i / 2] = (byte) (val & 0xFF);
-		}
-		return data;
+		this.key = XArrays.copyOf(key);
+		this.input = XArrays.copyOf(input);
+		this.output = XArrays.copyOf(output);
 	}
 
-	private Base16()
+	byte[] getKey()
 	{
-		/* ... */
+		return XArrays.copyOf(key);
+	}
+
+	byte[] getInput()
+	{
+		return XArrays.copyOf(input);
+	}
+
+	byte[] getOutput()
+	{
+		return XArrays.copyOf(output);
 	}
 }
