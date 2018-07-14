@@ -59,8 +59,8 @@ public final class Blake2b
 	private final byte[] buffer;
 	private byte[] key;
 	private long[] h; // internal state
-	private long t0; // counter's least significant bits
-	private long t1; // counter's most significant bits
+	private long t0; // counter's LSB
+	private long t1; // counter's MSB
 	private int c; // number of bytes in the buffer
 
 	/**

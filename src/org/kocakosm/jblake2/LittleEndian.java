@@ -109,6 +109,6 @@ final class LittleEndian
 	private LittleEndian()
 	{
 		// See "Effective Java" (Item 4)
-		throw new AssertionError("Not meant to be instanciated");
+		throw new AssertionError("Not meant to be instantiated");
 	}
 }
