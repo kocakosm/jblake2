@@ -16,9 +16,7 @@
 
 package org.kocakosm.jblake2;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.kocakosm.pitaya.io.Resource;
 import org.kocakosm.pitaya.util.BaseEncoding;
@@ -26,7 +24,8 @@ import org.kocakosm.pitaya.util.BaseEncoding;
 import java.io.IOException;
 import java.util.Random;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 /**
  * {@link Blake2b}'s unit tests.
@@ -39,40 +38,46 @@ public final class Blake2bTest
 	private static final byte[] DATA = BaseEncoding.BASE_16.decode("a55242b138855bc1");
 	private static final byte[] HASH = BaseEncoding.BASE_16.decode("5d24a4f6a40996d4");
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testUnkeyedConstructorWithNegativeDigestLength()
 	{
-		new Blake2b(-1);
+		Executable toTest = () -> new Blake2b(-1);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testUnkeyedConstructorWithDigestLengthGreaterThan64()
 	{
-		new Blake2b(65);
+		Executable toTest = () -> new Blake2b(65);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testKeyedConstructorWithNullKey()
 	{
-		new Blake2b(null, 8);
+		Executable toTest = () -> new Blake2b(null, 8);
+		assertThrows(NullPointerException.class, toTest);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testKeyedConstructorWithKeyLengthGreaterThan64()
 	{
-		new Blake2b(new byte[65], 8);
+		Executable toTest = () -> new Blake2b(new byte[65], 8);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testKeyedConstructorWithNegativeDigestLength()
 	{
-		new Blake2b(new byte[0], -1);
+		Executable toTest = () -> new Blake2b(new byte[0], -1);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testKeyedConstructorWithDigestLengthGreaterThan64()
 	{
-		new Blake2b(new byte[0], 65);
+		Executable toTest = () -> new Blake2b(new byte[0], 65);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
@@ -121,25 +126,28 @@ public final class Blake2bTest
 		assertArrayEquals(HASH, blake2b.digest(DATA));
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
+	@Test
 	public void testUpdateWithArrayRangeWithNegativeOffset()
 	{
 		Blake2b blake2b = new Blake2b(HASH.length);
-		blake2b.update(DATA, -1, DATA.length);
+		Executable toTest = () -> blake2b.update(DATA, -1, DATA.length);
+		assertThrows(IndexOutOfBoundsException.class, toTest);
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
+	@Test
 	public void testUpdateWithArrayRangeWithNegativeLength()
 	{
 		Blake2b blake2b = new Blake2b(HASH.length);
-		blake2b.update(DATA, 0, -1);
+		Executable toTest = () -> blake2b.update(DATA, 0, -1);
+		assertThrows(IndexOutOfBoundsException.class, toTest);
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
+	@Test
 	public void testUpdateWithArrayRangeWithEmptyArrayAndPositiveLength()
 	{
 		Blake2b blake2b = new Blake2b(HASH.length);
-		blake2b.update(new byte[0], 0, 1);
+		Executable toTest = () -> blake2b.update(new byte[0], 0, 1);
+		assertThrows(IndexOutOfBoundsException.class, toTest);
 	}
 
 	@Test
@@ -173,8 +181,10 @@ public final class Blake2bTest
 
 	private void checkTestVector(TestVector testVector)
 	{
+		byte[] key = testVector.getKey();
+		byte[] input = testVector.getInput();
 		byte[] expected = testVector.getOutput();
-		Blake2b blake2b = new Blake2b(testVector.getKey(), expected.length);
-		assertArrayEquals(expected, blake2b.digest(testVector.getInput()));
+		Blake2b blake2b = new Blake2b(key, expected.length);
+		assertArrayEquals(expected, blake2b.digest(input));
 	}
 }
