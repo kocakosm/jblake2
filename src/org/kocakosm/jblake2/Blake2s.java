@@ -72,7 +72,7 @@ public final class Blake2s implements Blake2
 	 */
 	public Blake2s(int digestLength)
 	{
-		this(new byte[0], digestLength);
+		this(digestLength, new byte[0]);
 	}
 
 	/**
@@ -81,15 +81,15 @@ public final class Blake2s implements Blake2
 	 * given key can be safely erased from memory after this constructor has
 	 * been called.
 	 *
-	 * @param key the key to use.
 	 * @param digestLength the desired digest's length (in bytes).
+	 * @param key the key to use.
 	 *
 	 * @throws NullPointerException if {@code key} is {@code null}.
 	 * @throws IllegalArgumentException if {@code key}'s length is greater
 	 *	than {@code 32} or if {@code digestLength} is not in the
 	 *	{@code [1, 32]} range.
 	 */
-	public Blake2s(byte[] key, int digestLength)
+	public Blake2s(int digestLength, byte[] key)
 	{
 		Preconditions.checkArgument(key.length <= 32);
 		Preconditions.checkArgument(digestLength >= 1 && digestLength <= 32);

@@ -55,28 +55,28 @@ public final class Blake2bTest
 	@Test
 	public void testKeyedConstructorWithNullKey()
 	{
-		Executable toTest = () -> new Blake2b(null, 8);
+		Executable toTest = () -> new Blake2b(8, null);
 		assertThrows(NullPointerException.class, toTest);
 	}
 
 	@Test
 	public void testKeyedConstructorWithKeyLengthGreaterThan64()
 	{
-		Executable toTest = () -> new Blake2b(new byte[65], 8);
+		Executable toTest = () -> new Blake2b(8, new byte[65]);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
 	public void testKeyedConstructorWithNegativeDigestLength()
 	{
-		Executable toTest = () -> new Blake2b(new byte[0], -1);
+		Executable toTest = () -> new Blake2b(-1, new byte[0]);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
 	public void testKeyedConstructorWithDigestLengthGreaterThan64()
 	{
-		Executable toTest = () -> new Blake2b(new byte[0], 65);
+		Executable toTest = () -> new Blake2b(65, new byte[0]);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
@@ -84,7 +84,7 @@ public final class Blake2bTest
 	public void testKeyedConstructorWithEmptyKey()
 	{
 		Blake2b unkeyed = new Blake2b(HASH.length);
-		Blake2b keyed = new Blake2b(new byte[0], HASH.length);
+		Blake2b keyed = new Blake2b(HASH.length, new byte[0]);
 		assertArrayEquals(unkeyed.digest(DATA), keyed.digest(DATA));
 	}
 
@@ -93,7 +93,7 @@ public final class Blake2bTest
 	{
 		byte[] key = new byte[32];
 		PRNG.nextBytes(key);
-		Blake2b blake2b = new Blake2b(key, HASH.length);
+		Blake2b blake2b = new Blake2b(HASH.length, key);
 		blake2b.update(DATA);
 		blake2b.burn();
 		assertArrayEquals(HASH, blake2b.digest(DATA));
@@ -184,7 +184,7 @@ public final class Blake2bTest
 		byte[] key = testVector.getKey();
 		byte[] input = testVector.getInput();
 		byte[] expected = testVector.getOutput();
-		Blake2b blake2b = new Blake2b(key, expected.length);
+		Blake2b blake2b = new Blake2b(expected.length, key);
 		assertArrayEquals(expected, blake2b.digest(input));
 	}
 }
