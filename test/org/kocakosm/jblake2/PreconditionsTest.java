@@ -16,87 +16,53 @@
 
 package org.kocakosm.jblake2;
 
-import static org.kocakosm.jblake2.LittleEndian.*;
+import static org.kocakosm.jblake2.Preconditions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 /**
- * {@link LittleEndian}'s unit tests.
+ * {@link Preconditions}'s unit tests.
  *
  * @author Osman Koçak
  */
-public final class LittleEndianTest
+public final class PreconditionsTest
 {
-	private static final Random PRNG = new Random();
-
 	@Test
-	public void testEncodeInt()
+	public void testCheckArgument()
 	{
-		byte[] encoded = new byte[] {
-			(byte) 0x33, (byte) 0x12, (byte) 0x74, (byte) 0x25
-		};
-		assertArrayEquals(encoded, encode(628363827));
+		checkArgument(true);
+		assertThrows(IllegalArgumentException.class, () -> checkArgument(false));
 	}
 
 	@Test
-	public void testDecodeInt()
+	public void testCheckState()
 	{
-		byte[] encoded = new byte[] {
-			(byte) 0x33, (byte) 0x12, (byte) 0x74, (byte) 0x25
-		};
-		assertEquals(628363827, decodeInt(encoded));
+		checkState(true);
+		assertThrows(IllegalStateException.class, () -> checkState(false));
 	}
 
 	@Test
-	public void testEncodeAndDecodeInt()
+	public void testCheckBounds()
 	{
-		for (int i = 0; i < 10000; i++) {
-			int n = PRNG.nextInt();
-			assertEquals(n, decodeInt(encode(n)));
-		}
-	}
-
-	@Test
-	public void testEncodeLong()
-	{
-		byte[] encoded = {
-			(byte) 0x90, (byte) 0xB1, (byte) 0x5C, (byte) 0x1D,
-			(byte) 0x76, (byte) 0x7F, (byte) 0x5E, (byte) 0x1A
-		};
-		assertArrayEquals(encoded, encode(1900096238072410512L));
-	}
-
-	@Test
-	public void testDecodeLong()
-	{
-		byte[] encoded = {
-			(byte) 0x90, (byte) 0xB1, (byte) 0x5C, (byte) 0x1D,
-			(byte) 0x76, (byte) 0x7F, (byte) 0x5E, (byte) 0x1A
-		};
-		assertEquals(1900096238072410512L, decodeLong(encoded));
-	}
-
-	@Test
-	public void testEncodeAndDecodeLong()
-	{
-		for (int i = 0; i < 10000; i++) {
-			long n = PRNG.nextLong();
-			assertEquals(n, decodeLong(encode(n)));
-		}
+		byte[] b = new byte[5];
+		checkBounds(b, 1, 2);
+		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, -1, 2));
+		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, 0, -1));
+		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, 5, 1));
+		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, 2, 4));
 	}
 
 	@Test
 	public void testConstructor() throws Throwable
 	{
-		Class<LittleEndian> c = LittleEndian.class;
+		Class<Preconditions> c = Preconditions.class;
 		assertEquals(1, c.getDeclaredConstructors().length);
-		Constructor<LittleEndian> constructor = c.getDeclaredConstructor();
+		Constructor<Preconditions> constructor = c.getDeclaredConstructor();
 		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
 		Executable toTest = () -> {

@@ -19,13 +19,13 @@ package org.kocakosm.jblake2;
 import java.util.Arrays;
 
 /**
- * The BLAKE2b digest algorithm. This BLAKE2 flavor is highly optimized for
- * 64-bit platforms and produces digests of any size between 1 and 64 bytes.
- * This class implements the BLAKE2b algorithm as specified in RFC 7693. The
+ * The BLAKE2s digest algorithm. This BLAKE2 flavor is optimized for 8 to
+ * 32-bit platforms and produces digests of any size between 1 and 32 bytes.
+ * This class implements the BLAKE2s algorithm as specified in RFC 7693. The
  * <a href="https://blake2.net/blake2.pdf">original paper</a> defines some
  * additional variants with features such as salting, personalization and tree
  * hashing. These features are considered optional and not covered by the RFC.
- * BLAKE2b can be directly keyed, making it functionally equivalent to a Message
+ * BLAKE2s can be directly keyed, making it functionally equivalent to a Message
  * Authentication Code (it does not require a special construction like HMAC).
  * Instances of this class are not thread safe.
  *
@@ -34,13 +34,12 @@ import java.util.Arrays;
  *
  * @author Osman Koçak
  */
-public final class Blake2b implements Blake2
+public final class Blake2s implements Blake2
 {
-	private static final int BLOCK_LENGTH = 128;
-	private static final long IV[] = {
-		0X6A09E667F3BCC908L, 0XBB67AE8584CAA73BL, 0X3C6EF372FE94F82BL,
-		0XA54FF53A5F1D36F1L, 0X510E527FADE682D1L, 0X9B05688C2B3E6C1FL,
-		0X1F83D9ABFB41BD6BL, 0X5BE0CD19137E2179L
+	private static final int BLOCK_LENGTH = 64;
+	private static final int IV[] = {
+		0x6A09E667, 0XBB67AE85, 0X3C6EF372, 0xA54FF53A,
+		0X510E527F, 0X9B05688C, 0x1F83D9AB, 0X5BE0CD19
 	};
 	private static final int[][] SIGMA = {
 		{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
@@ -52,34 +51,32 @@ public final class Blake2b implements Blake2
 		{12, 5, 1, 15, 14, 13, 4, 10, 0, 7, 6, 3, 9, 2, 8, 11},
 		{13, 11, 7, 14, 12, 1, 3, 9, 5, 0, 15, 4, 8, 6, 2, 10},
 		{6, 15, 14, 9, 11, 3, 0, 8, 12, 2, 13, 7, 1, 4, 10, 5},
-		{10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0},
-		{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-		{14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3}
+		{10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0}
 	};
 
 	private final int digestLength;
 	private final byte[] buffer;
 	private byte[] key;
-	private long[] h; // internal state
-	private long t0; // counter's LSB
-	private long t1; // counter's MSB
+	private int[] h; // internal state
+	private int t0; // counter's LSB
+	private int t1; // counter's MSB
 	private int c; // number of bytes in the buffer
 
 	/**
-	 * Creates a new unkeyed {@code Blake2b} instance.
+	 * Creates a new unkeyed {@code Blake2s} instance.
 	 *
 	 * @param digestLength the desired digest's length (in bytes).
 	 *
 	 * @throws IllegalArgumentException if {@code digestLength} is not in
-	 *	the {@code [1, 64]} range.
+	 *	the {@code [1, 32]} range.
 	 */
-	public Blake2b(int digestLength)
+	public Blake2s(int digestLength)
 	{
 		this(new byte[0], digestLength);
 	}
 
 	/**
-	 * Creates a new keyed {@code Blake2b} instance. If the key is empty,
+	 * Creates a new keyed {@code Blake2s} instance. If the key is empty,
 	 * then the created instance is equivalent to an unkeyed digest. The
 	 * given key can be safely erased from memory after this constructor has
 	 * been called.
@@ -89,20 +86,20 @@ public final class Blake2b implements Blake2
 	 *
 	 * @throws NullPointerException if {@code key} is {@code null}.
 	 * @throws IllegalArgumentException if {@code key}'s length is greater
-	 *	than {@code 64} or if {@code digestLength} is not in the
-	 *	{@code [1, 64]} range.
+	 *	than {@code 32} or if {@code digestLength} is not in the
+	 *	{@code [1, 32]} range.
 	 */
-	public Blake2b(byte[] key, int digestLength)
+	public Blake2s(byte[] key, int digestLength)
 	{
-		Preconditions.checkArgument(key.length <= 64);
-		Preconditions.checkArgument(digestLength >= 1 && digestLength <= 64);
+		Preconditions.checkArgument(key.length <= 32);
+		Preconditions.checkArgument(digestLength >= 1 && digestLength <= 32);
 		this.buffer = new byte[BLOCK_LENGTH];
 		this.key = Arrays.copyOf(key, key.length);
 		this.digestLength = digestLength;
 		reset();
 	}
 
-	private Blake2b(Blake2b digest)
+	private Blake2s(Blake2s digest)
 	{
 		this.c = digest.c;
 		this.buffer = Arrays.copyOf(digest.buffer, digest.buffer.length);
@@ -123,9 +120,9 @@ public final class Blake2b implements Blake2
 	}
 
 	@Override
-	public Blake2b copy()
+	public Blake2s copy()
 	{
-		return new Blake2b(this);
+		return new Blake2s(this);
 	}
 
 	@Override
@@ -135,10 +132,10 @@ public final class Blake2b implements Blake2
 	}
 
 	@Override
-	public Blake2b reset()
+	public Blake2s reset()
 	{
-		t0 = 0L;
-		t1 = 0L;
+		t0 = 0;
+		t1 = 0;
 		h = Arrays.copyOf(IV, IV.length);
 		h[0] ^= digestLength | (key.length << 8) | 0x01010000;
 		if (key.length > 0) {
@@ -152,7 +149,7 @@ public final class Blake2b implements Blake2
 	}
 
 	@Override
-	public Blake2b update(byte input)
+	public Blake2s update(byte input)
 	{
 		if (c == BLOCK_LENGTH) {
 			processBuffer(false);
@@ -162,13 +159,13 @@ public final class Blake2b implements Blake2
 	}
 
 	@Override
-	public Blake2b update(byte... input)
+	public Blake2s update(byte... input)
 	{
 		return update(input, 0, input.length);
 	}
 
 	@Override
-	public Blake2b update(byte[] input, int off, int len)
+	public Blake2s update(byte[] input, int off, int len)
 	{
 		Preconditions.checkBounds(input, off, len);
 		int index = off;
@@ -193,12 +190,12 @@ public final class Blake2b implements Blake2
 		processBuffer(true);
 		byte[] out = new byte[digestLength];
 		int i = 0;
-		while (i < h.length && i * 8 < digestLength - 8) {
-			LittleEndian.encode(h[i], out, i * 8);
+		while (i < h.length && i * 4 < digestLength - 4) {
+			LittleEndian.encode(h[i], out, i * 4);
 			i++;
 		}
 		byte[] last = LittleEndian.encode(h[i]);
-		System.arraycopy(last, 0, out, i * 8, digestLength - (i * 8));
+		System.arraycopy(last, 0, out, i * 4, digestLength - (i * 4));
 		reset();
 		return out;
 	}
@@ -206,9 +203,9 @@ public final class Blake2b implements Blake2
 	private void processBuffer(boolean lastBlock)
 	{
 		t0 += c;
-		if (t0 == 0L && c > 0) { // bitwise overflow
+		if (t0 == 0 && c > 0) { // bitwise overflow
 			t1++;
-			Preconditions.checkState(t1 != 0L);
+			Preconditions.checkState(t1 != 0);
 		}
 		c = 0;
 		F(buffer, lastBlock);
@@ -216,7 +213,7 @@ public final class Blake2b implements Blake2
 
 	private void F(byte[] input, boolean lastBlock)
 	{
-		long[] v = new long[16];
+		int[] v = new int[16];
 		System.arraycopy(h, 0, v, 0, h.length);
 		System.arraycopy(IV, 0, v, h.length, IV.length);
 		v[12] ^= t0;
@@ -224,11 +221,11 @@ public final class Blake2b implements Blake2
 		if (lastBlock) {
 			v[14] = ~v[14];
 		}
-		long[] m = new long[16];
+		int[] m = new int[16];
 		for (int j = 0; j < 16; j++) {
-			m[j] = LittleEndian.decodeLong(input, j * 8);
+			m[j] = LittleEndian.decodeInt(input, j * 4);
 		}
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 10; i++) {
 			G(v, 0, 4,  8, 12, m[SIGMA[i][ 0]], m[SIGMA[i][ 1]]);
 			G(v, 1, 5,  9, 13, m[SIGMA[i][ 2]], m[SIGMA[i][ 3]]);
 			G(v, 2, 6, 10, 14, m[SIGMA[i][ 4]], m[SIGMA[i][ 5]]);
@@ -243,15 +240,15 @@ public final class Blake2b implements Blake2
 		}
 	}
 
-	private void G(long[] v, int a, int b, int c, int d, long x, long y)
+	private void G(int[] v, int a, int b, int c, int d, int x, int y)
 	{
 		v[a] += v[b] + x;
-		v[d] = Long.rotateRight(v[d] ^ v[a], 32);
+		v[d] = Integer.rotateRight(v[d] ^ v[a], 16);
 		v[c] += v[d];
-		v[b] = Long.rotateRight(v[b] ^ v[c], 24);
+		v[b] = Integer.rotateRight(v[b] ^ v[c], 12);
 		v[a] += v[b] + y;
-		v[d] = Long.rotateRight(v[d] ^ v[a], 16);
+		v[d] = Integer.rotateRight(v[d] ^ v[a], 8);
 		v[c] += v[d];
-		v[b] = Long.rotateRight(v[b] ^ v[c], 63);
+		v[b] = Integer.rotateRight(v[b] ^ v[c], 7);
 	}
 }

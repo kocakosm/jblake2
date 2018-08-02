@@ -28,63 +28,63 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 /**
- * {@link Blake2b}'s unit tests.
+ * {@link Blake2s}'s unit tests.
  *
  * @author Osman Koçak
  */
-public final class Blake2bTest
+public final class Blake2sTest
 {
 	private static final Random PRNG = new Random();
 	private static final byte[] DATA = BaseEncoding.BASE_16.decode("a5b1");
-	private static final byte[] HASH = BaseEncoding.BASE_16.decode("80b6");
+	private static final byte[] HASH = BaseEncoding.BASE_16.decode("df55");
 
 	@Test
 	public void testUnkeyedConstructorWithNegativeDigestLength()
 	{
-		Executable toTest = () -> new Blake2b(-1);
+		Executable toTest = () -> new Blake2s(-1);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
-	public void testUnkeyedConstructorWithDigestLengthGreaterThan64()
+	public void testUnkeyedConstructorWithDigestLengthGreaterThan32()
 	{
-		Executable toTest = () -> new Blake2b(65);
+		Executable toTest = () -> new Blake2s(33);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
 	public void testKeyedConstructorWithNullKey()
 	{
-		Executable toTest = () -> new Blake2b(null, 8);
+		Executable toTest = () -> new Blake2s(null, 8);
 		assertThrows(NullPointerException.class, toTest);
 	}
 
 	@Test
-	public void testKeyedConstructorWithKeyLengthGreaterThan64()
+	public void testKeyedConstructorWithKeyLengthGreaterThan32()
 	{
-		Executable toTest = () -> new Blake2b(new byte[65], 8);
+		Executable toTest = () -> new Blake2s(new byte[33], 8);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
 	public void testKeyedConstructorWithNegativeDigestLength()
 	{
-		Executable toTest = () -> new Blake2b(new byte[0], -1);
+		Executable toTest = () -> new Blake2s(new byte[0], -1);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
-	public void testKeyedConstructorWithDigestLengthGreaterThan64()
+	public void testKeyedConstructorWithDigestLengthGreaterThan32()
 	{
-		Executable toTest = () -> new Blake2b(new byte[0], 65);
+		Executable toTest = () -> new Blake2s(new byte[0], 33);
 		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
 	public void testKeyedConstructorWithEmptyKey()
 	{
-		Blake2b unkeyed = new Blake2b(HASH.length);
-		Blake2b keyed = new Blake2b(new byte[0], HASH.length);
+		Blake2s unkeyed = new Blake2s(HASH.length);
+		Blake2s keyed = new Blake2s(new byte[0], HASH.length);
 		assertArrayEquals(unkeyed.digest(DATA), keyed.digest(DATA));
 	}
 
@@ -93,87 +93,87 @@ public final class Blake2bTest
 	{
 		byte[] key = new byte[32];
 		PRNG.nextBytes(key);
-		Blake2b blake2b = new Blake2b(key, HASH.length);
-		blake2b.update(DATA);
-		blake2b.burn();
-		assertArrayEquals(HASH, blake2b.digest(DATA));
+		Blake2s blake2s = new Blake2s(key, HASH.length);
+		blake2s.update(DATA);
+		blake2s.burn();
+		assertArrayEquals(HASH, blake2s.digest(DATA));
 	}
 
 	@Test
 	public void testCopy()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
-		blake2b.update(DATA);
-		Blake2b copy = blake2b.copy();
-		assertFalse(blake2b == copy);
-		blake2b.update(DATA);
+		Blake2s blake2s = new Blake2s(HASH.length);
+		blake2s.update(DATA);
+		Blake2s copy = blake2s.copy();
+		assertFalse(blake2s == copy);
+		blake2s.update(DATA);
 		copy.update(DATA);
-		assertArrayEquals(blake2b.digest(), copy.digest());
+		assertArrayEquals(blake2s.digest(), copy.digest());
 	}
 
 	@Test
 	public void testLength()
 	{
-		int length = PRNG.nextInt(63) + 1;
-		assertEquals(length, new Blake2b(length).length());
+		int length = PRNG.nextInt(31) + 1;
+		assertEquals(length, new Blake2s(length).length());
 	}
 
 	@Test
 	public void testReset()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
-		blake2b.update(DATA).reset();
-		assertArrayEquals(HASH, blake2b.digest(DATA));
+		Blake2s blake2s = new Blake2s(HASH.length);
+		blake2s.update(DATA).reset();
+		assertArrayEquals(HASH, blake2s.digest(DATA));
 	}
 
 	@Test
 	public void testUpdateWithArrayRangeWithNegativeOffset()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
-		Executable toTest = () -> blake2b.update(DATA, -1, DATA.length);
+		Blake2s blake2s = new Blake2s(HASH.length);
+		Executable toTest = () -> blake2s.update(DATA, -1, DATA.length);
 		assertThrows(IndexOutOfBoundsException.class, toTest);
 	}
 
 	@Test
 	public void testUpdateWithArrayRangeWithNegativeLength()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
-		Executable toTest = () -> blake2b.update(DATA, 0, -1);
+		Blake2s blake2s = new Blake2s(HASH.length);
+		Executable toTest = () -> blake2s.update(DATA, 0, -1);
 		assertThrows(IndexOutOfBoundsException.class, toTest);
 	}
 
 	@Test
 	public void testUpdateWithArrayRangeWithEmptyArrayAndPositiveLength()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
-		Executable toTest = () -> blake2b.update(new byte[0], 0, 1);
+		Blake2s blake2s = new Blake2s(HASH.length);
+		Executable toTest = () -> blake2s.update(new byte[0], 0, 1);
 		assertThrows(IndexOutOfBoundsException.class, toTest);
 	}
 
 	@Test
 	public void testUpdateAndDigest()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
+		Blake2s blake2s = new Blake2s(HASH.length);
 		for (byte b : DATA) {
-			blake2b.update(b);
+			blake2s.update(b);
 		}
-		assertArrayEquals(HASH, blake2b.digest());
-		blake2b.update(DATA);
-		assertArrayEquals(HASH, blake2b.digest());
+		assertArrayEquals(HASH, blake2s.digest());
+		blake2s.update(DATA);
+		assertArrayEquals(HASH, blake2s.digest());
 	}
 
 	@Test
 	public void testDirectDigest()
 	{
-		Blake2b blake2b = new Blake2b(HASH.length);
-		assertArrayEquals(HASH, blake2b.digest(DATA));
-		assertArrayEquals(HASH, blake2b.digest(DATA));
+		Blake2s blake2s = new Blake2s(HASH.length);
+		assertArrayEquals(HASH, blake2s.digest(DATA));
+		assertArrayEquals(HASH, blake2s.digest(DATA));
 	}
 
 	@Test
 	public void checkTestVectors() throws IOException
 	{
-		Resource resource = Resource.find("blake2b-test-vectors.json", getClass());
+		Resource resource = Resource.find("blake2s-test-vectors.json", getClass());
 		for (TestVector testVector : TestVectors.read(resource.getURL())) {
 			checkTestVector(testVector);
 		}
@@ -184,7 +184,7 @@ public final class Blake2bTest
 		byte[] key = testVector.getKey();
 		byte[] input = testVector.getInput();
 		byte[] expected = testVector.getOutput();
-		Blake2b blake2b = new Blake2b(key, expected.length);
-		assertArrayEquals(expected, blake2b.digest(input));
+		Blake2s blake2s = new Blake2s(key, expected.length);
+		assertArrayEquals(expected, blake2s.digest(input));
 	}
 }
