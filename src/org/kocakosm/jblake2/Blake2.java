@@ -29,6 +29,13 @@ package org.kocakosm.jblake2;
 public interface Blake2
 {
 	/**
+	 * Returns the algorithm name.
+	 *
+	 * @return the algorithm name.
+	 */
+	String algorithm();
+
+	/**
 	 * Erases the key and resets the digest, thus making this instance
 	 * functionally equivalent to a newly created unkeyed digest. If this
 	 * instance is already unkeyed, calling this method has no other effect

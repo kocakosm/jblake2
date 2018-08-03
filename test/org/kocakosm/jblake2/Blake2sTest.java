@@ -89,6 +89,12 @@ public final class Blake2sTest
 	}
 
 	@Test
+	public void testAlgorithm()
+	{
+		assertEquals("BLAKE2s", new Blake2s(HASH.length).algorithm());
+	}
+
+	@Test
 	public void testBurn()
 	{
 		byte[] key = new byte[32];

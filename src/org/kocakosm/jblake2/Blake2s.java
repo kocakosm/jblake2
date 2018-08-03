@@ -111,6 +111,12 @@ public final class Blake2s implements Blake2
 	}
 
 	@Override
+	public String algorithm()
+	{
+		return "BLAKE2s";
+	}
+
+	@Override
 	public void burn()
 	{
 		Arrays.fill(key, (byte) 0);
