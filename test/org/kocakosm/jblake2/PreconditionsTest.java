@@ -58,7 +58,7 @@ public final class PreconditionsTest
 	}
 
 	@Test
-	public void testConstructor() throws Throwable
+	public void testConstructor() throws Exception
 	{
 		Class<Preconditions> c = Preconditions.class;
 		assertEquals(1, c.getDeclaredConstructors().length);

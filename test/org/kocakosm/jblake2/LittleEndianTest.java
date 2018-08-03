@@ -92,7 +92,7 @@ public final class LittleEndianTest
 	}
 
 	@Test
-	public void testConstructor() throws Throwable
+	public void testConstructor() throws Exception
 	{
 		Class<LittleEndian> c = LittleEndian.class;
 		assertEquals(1, c.getDeclaredConstructors().length);

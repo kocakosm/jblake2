@@ -62,7 +62,7 @@ public interface Blake2
 	 *
 	 * @return this object.
 	 */
-	public Blake2 reset();
+	Blake2 reset();
 
 	/**
 	 * Updates the digest using the given byte.
@@ -71,7 +71,7 @@ public interface Blake2
 	 *
 	 * @return this object.
 	 */
-	public Blake2 update(byte input);
+	Blake2 update(byte input);
 
 	/**
 	 * Updates the digest using the given array of bytes.
