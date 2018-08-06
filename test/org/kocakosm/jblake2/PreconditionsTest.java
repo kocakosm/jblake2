@@ -33,26 +33,47 @@ import org.junit.jupiter.api.function.Executable;
 public final class PreconditionsTest
 {
 	@Test
-	public void testCheckArgument()
+	public void testCheckArgumentSuccess()
 	{
 		checkArgument(true);
+	}
+
+	@Test
+	public void testCheckArgumentFailure()
+	{
 		assertThrows(IllegalArgumentException.class, () -> checkArgument(false));
 	}
 
 	@Test
-	public void testCheckState()
+	public void testCheckStateSuccess()
 	{
 		checkState(true);
+	}
+
+	@Test
+	public void testCheckStateFailure()
+	{
 		assertThrows(IllegalStateException.class, () -> checkState(false));
 	}
 
 	@Test
-	public void testCheckBounds()
+	public void testCheckBoundsSuccess()
+	{
+		checkBounds(new byte[5], 1, 2);
+	}
+
+	@Test
+	public void testCheckBoundsFailureOnInvalidRange()
 	{
 		byte[] b = new byte[5];
-		checkBounds(b, 1, 2);
-		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, -1, 2));
-		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, 0, -1));
+		assertThrows(IllegalArgumentException.class, () -> checkBounds(b, -1, 2));
+		assertThrows(IllegalArgumentException.class, () -> checkBounds(b, 0, -1));
+	}
+
+	@Test
+	public void testCheckBoundsFailureOnOutOfBoundsRange()
+	{
+		byte[] b = new byte[5];
 		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, 5, 1));
 		assertThrows(IndexOutOfBoundsException.class, () -> checkBounds(b, 2, 4));
 	}

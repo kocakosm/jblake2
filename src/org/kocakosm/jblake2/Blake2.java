@@ -102,9 +102,8 @@ public interface Blake2
 	 * @return this object.
 	 *
 	 * @throws NullPointerException if {@code input} is {@code null}.
-	 * @throws IndexOutOfBoundsException if {@code off} is negative or if
-	 *	{@code len} is negative or if {@code off + len} is greater than
-	 *	{@code input}'s length.
+	 * @throws IllegalArgumentException if {@code off < 0 || len < 0}.
+	 * @throws IndexOutOfBoundsException if {@code off + len > input.length}.
 	 */
 	Blake2 update(byte[] input, int off, int len);
 
@@ -141,9 +140,8 @@ public interface Blake2
 	 * @return the resulting digest.
 	 *
 	 * @throws NullPointerException if {@code input} is {@code null}.
-	 * @throws IndexOutOfBoundsException if {@code off} is negative or if
-	 *	{@code len} is negative or if {@code off + len} is greater than
-	 *	{@code input}'s length.
+	 * @throws IllegalArgumentException if {@code off < 0 || len < 0}.
+	 * @throws IndexOutOfBoundsException if {@code off + len > input.length}.
 	 */
 	default byte[] digest(byte[] input, int off, int len)
 	{

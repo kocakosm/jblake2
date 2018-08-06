@@ -30,8 +30,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,12 +50,14 @@ final class TestVectors
 		GSON = gson.create();
 	}
 
-	static List<TestVector> read(URL url) throws IOException
+	static List<TestVector> read(URL url)
 	{
 		try (InputStream in = url.openStream()) {
 			Reader reader = new InputStreamReader(in, Charsets.UTF_8);
 			Type type = new TypeToken<List<TestVector>>(){}.getType();
-			return GSON.fromJson(reader, type);
+			return Collections.unmodifiableList(GSON.fromJson(reader, type));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
 	}
 

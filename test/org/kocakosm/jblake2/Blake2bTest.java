@@ -21,9 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.kocakosm.pitaya.io.Resource;
 import org.kocakosm.pitaya.util.BaseEncoding;
 
-import java.io.IOException;
-import java.util.Random;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -34,7 +31,6 @@ import org.junit.jupiter.api.function.Executable;
  */
 public final class Blake2bTest
 {
-	private static final Random PRNG = new Random();
 	private static final byte[] DATA = BaseEncoding.BASE_16.decode("a5b1");
 	private static final byte[] HASH = BaseEncoding.BASE_16.decode("80b6");
 
@@ -97,9 +93,7 @@ public final class Blake2bTest
 	@Test
 	public void testBurn()
 	{
-		byte[] key = new byte[32];
-		PRNG.nextBytes(key);
-		Blake2b blake2b = new Blake2b(HASH.length, key);
+		Blake2b blake2b = new Blake2b(HASH.length, PRNG.nextBytes(64));
 		blake2b.update(DATA);
 		blake2b.burn();
 		assertArrayEquals(HASH, blake2b.digest(DATA));
@@ -120,7 +114,7 @@ public final class Blake2bTest
 	@Test
 	public void testLength()
 	{
-		int length = PRNG.nextInt(63) + 1;
+		int length = PRNG.nextInt(1, 65);
 		assertEquals(length, new Blake2b(length).length());
 	}
 
@@ -137,7 +131,7 @@ public final class Blake2bTest
 	{
 		Blake2b blake2b = new Blake2b(HASH.length);
 		Executable toTest = () -> blake2b.update(DATA, -1, DATA.length);
-		assertThrows(IndexOutOfBoundsException.class, toTest);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
@@ -145,7 +139,7 @@ public final class Blake2bTest
 	{
 		Blake2b blake2b = new Blake2b(HASH.length);
 		Executable toTest = () -> blake2b.update(DATA, 0, -1);
-		assertThrows(IndexOutOfBoundsException.class, toTest);
+		assertThrows(IllegalArgumentException.class, toTest);
 	}
 
 	@Test
@@ -166,6 +160,11 @@ public final class Blake2bTest
 		assertArrayEquals(HASH, blake2b.digest());
 		blake2b.update(DATA);
 		assertArrayEquals(HASH, blake2b.digest());
+		byte[] random = PRNG.nextBytes(129);
+		for (byte b : random) {
+			blake2b.update(b);
+		}
+		assertArrayEquals(blake2b.digest(), blake2b.digest(random));
 	}
 
 	@Test
@@ -177,7 +176,7 @@ public final class Blake2bTest
 	}
 
 	@Test
-	public void checkTestVectors() throws IOException
+	public void checkTestVectors()
 	{
 		Resource resource = Resource.find("blake2b-test-vectors.json", getClass());
 		for (TestVector testVector : TestVectors.read(resource.getURL())) {
