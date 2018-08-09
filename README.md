@@ -1,28 +1,30 @@
 JBlake2 [![Build][1]][2] [![Coverage][3]][4] [![Version][5]][6] [![Javadocs][7]][8] [![License][9]][10]
 =======================================================================================================
 
-A pure Java implementation of [BLAKE2][11]
+A pure Java (8+) implementation of BLAKE2 ([RFC 7693][11]).
 
 
 Getting started
 ---------------
 
 JBlake2 binaries are available from Maven central repositories.
-Download the [latest JAR][12] or get it directly from your favorite build tool:
+Download the [latest jar][12] or get it directly from your favorite build tool:
 
 Maven
 ```xml
   <dependency>
     <groupId>org.kocakosm</groupId>
     <artifactId>jblake2</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
   </dependency>
 ```
 
 Gradle
 ```groovy
-  compile 'org.kocakosm:jblake2:0.2'
+  compile 'org.kocakosm:jblake2:0.3'
 ```
+
+*Note: module name for the Java Module System is `org.kocakosm.jblake2`.*
 
 
 Usage
