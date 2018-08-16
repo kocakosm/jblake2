@@ -17,7 +17,7 @@
 package org.kocakosm.jblake2;
 
 /**
- * Common interface for BLAKE2 flavors BLAKE2b and BLAKE2s.
+ * Common interface for BLAKE2 flavors.
  *
  * @see Blake2b
  * @see Blake2s

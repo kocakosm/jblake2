@@ -25,7 +25,7 @@ import java.util.Random;
  */
 final class PRNG
 {
-	private static final Random PRNG = new Random();
+	private static final Random RANDOM = new Random();
 
 	static byte[] nextBytes(int count)
 	{
@@ -33,7 +33,7 @@ final class PRNG
 			throw new IllegalArgumentException();
 		}
 		byte[] bytes = new byte[count];
-		PRNG.nextBytes(bytes);
+		RANDOM.nextBytes(bytes);
 		return bytes;
 	}
 
@@ -42,7 +42,7 @@ final class PRNG
 		if (startInclusive < 0 || endExclusive <= startInclusive) {
 			throw new IllegalArgumentException();
 		}
-		return startInclusive + PRNG.nextInt(endExclusive - startInclusive);
+		return startInclusive + RANDOM.nextInt(endExclusive - startInclusive);
 	}
 
 	private PRNG()
