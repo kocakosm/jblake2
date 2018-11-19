@@ -16,7 +16,7 @@
 
 package org.kocakosm.jblake2;
 
-import org.kocakosm.pitaya.util.XArrays;
+import static org.kocakosm.pitaya.util.XArrays.copyOf;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -38,23 +38,23 @@ final class TestVector
 
 	TestVector(byte[] key, byte[] input, byte[] output)
 	{
-		this.key = XArrays.copyOf(key);
-		this.input = XArrays.copyOf(input);
-		this.output = XArrays.copyOf(output);
+		this.key = copyOf(key);
+		this.input = copyOf(input);
+		this.output = copyOf(output);
 	}
 
 	byte[] getKey()
 	{
-		return XArrays.copyOf(key);
+		return copyOf(key);
 	}
 
 	byte[] getInput()
 	{
-		return XArrays.copyOf(input);
+		return copyOf(input);
 	}
 
 	byte[] getOutput()
 	{
-		return XArrays.copyOf(output);
+		return copyOf(output);
 	}
 }

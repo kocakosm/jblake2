@@ -37,12 +37,22 @@ final class PRNG
 		return bytes;
 	}
 
+	static int nextInt()
+	{
+		return RANDOM.nextInt();
+	}
+
 	static int nextInt(int startInclusive, int endExclusive)
 	{
 		if (startInclusive < 0 || endExclusive <= startInclusive) {
 			throw new IllegalArgumentException();
 		}
 		return startInclusive + RANDOM.nextInt(endExclusive - startInclusive);
+	}
+
+	static long nextLong()
+	{
+		return RANDOM.nextLong();
 	}
 
 	private PRNG()

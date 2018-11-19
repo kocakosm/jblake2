@@ -20,11 +20,10 @@ import static org.kocakosm.jblake2.LittleEndian.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.Random;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 /**
  * {@link LittleEndian}'s unit tests.
@@ -33,8 +32,6 @@ import org.junit.jupiter.api.function.Executable;
  */
 public final class LittleEndianTest
 {
-	private static final Random PRNG = new Random();
-
 	@Test
 	public void testEncodeInt()
 	{
@@ -99,14 +96,15 @@ public final class LittleEndianTest
 		Constructor<LittleEndian> constructor = c.getDeclaredConstructor();
 		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
-		Executable toTest = () -> {
-			try {
-				constructor.newInstance();
-			} catch (Exception e) {
-				throw e.getCause();
-			}
-		};
-		AssertionError error = assertThrows(AssertionError.class, toTest);
-		assertEquals(error.getMessage(), "Not meant to be instantiated");
+		assertThrows(AssertionError.class, () -> invoke(constructor));
+	}
+
+	private void invoke(Constructor constructor) throws Throwable
+	{
+		try {
+			constructor.newInstance();
+		} catch (InvocationTargetException e) {
+			throw e.getCause();
+		}
 	}
 }

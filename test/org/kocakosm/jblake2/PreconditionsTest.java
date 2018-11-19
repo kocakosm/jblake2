@@ -20,10 +20,10 @@ import static org.kocakosm.jblake2.Preconditions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 /**
  * {@link Preconditions}'s unit tests.
@@ -86,14 +86,15 @@ public final class PreconditionsTest
 		Constructor<Preconditions> constructor = c.getDeclaredConstructor();
 		assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
-		Executable toTest = () -> {
-			try {
-				constructor.newInstance();
-			} catch (Exception e) {
-				throw e.getCause();
-			}
-		};
-		AssertionError error = assertThrows(AssertionError.class, toTest);
-		assertEquals(error.getMessage(), "Not meant to be instantiated");
+		assertThrows(AssertionError.class, () -> invoke(constructor));
+	}
+
+	private void invoke(Constructor constructor) throws Throwable
+	{
+		try {
+			constructor.newInstance();
+		} catch (InvocationTargetException e) {
+			throw e.getCause();
+		}
 	}
 }

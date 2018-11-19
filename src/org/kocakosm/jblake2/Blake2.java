@@ -41,12 +41,9 @@ public interface Blake2
 	 * instance is already unkeyed, calling this method has no other effect
 	 * than resetting the digest.
 	 * Please note that this method can only guarantee that the active copy
-	 * of the key is erased. Indeed, in practice, an object may have several
-	 * copies of itself in physical RAM. This is mainly due to the fact that
-	 * most modern garbage collection algorithms regularly "move" objects in
-	 * memory.
-	 * This method is primarily here because it is still considered a good
-	 * practice to erase sensitive information as soon as possible.
+	 * of the key is erased from memory. Indeed, in practice, an object may
+	 * have several copies of itself in physical RAM (garbage collection
+	 * algorithms tend to regularly "move" objects in memory).
 	 */
 	void burn();
 

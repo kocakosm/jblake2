@@ -179,17 +179,12 @@ public final class Blake2sTest
 	public void checkTestVectors()
 	{
 		Resource resource = Resource.find("blake2s-test-vectors.json", getClass());
-		for (TestVector testVector : TestVectors.read(resource.getURL())) {
-			checkTestVector(testVector);
-		}
-	}
-
-	private void checkTestVector(TestVector testVector)
-	{
-		byte[] key = testVector.getKey();
-		byte[] input = testVector.getInput();
-		byte[] expected = testVector.getOutput();
-		Blake2s blake2s = new Blake2s(expected.length, key);
-		assertArrayEquals(expected, blake2s.digest(input));
+		TestVectors.read(resource.getURL()).forEach(vector -> {
+			byte[] key = vector.getKey();
+			byte[] input = vector.getInput();
+			byte[] expected = vector.getOutput();
+			Blake2s blake2s = new Blake2s(expected.length, key);
+			assertArrayEquals(expected, blake2s.digest(input));
+		});
 	}
 }
