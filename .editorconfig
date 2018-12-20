@@ -1,0 +1,14 @@
+[*]
+charset = utf-8
+end_of_line = lf
+max_line_length = off
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+[{*.java,*.sh}]
+indent_size = 8
+indent_style = tab
+
+[{*.xml,*.json}]
+indent_size = 2
+indent_style = space
