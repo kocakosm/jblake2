@@ -7,7 +7,7 @@ A pure Java (8+) implementation of BLAKE2 ([RFC 7693][11]).
 Getting started
 ---------------
 
-JBlake2 binaries are available from Maven central repositories.
+JBlake2 binaries are available from Maven Central repositories.
 Download the [latest jar][12] or get it directly from your favorite build tool:
 
 Maven
@@ -15,13 +15,13 @@ Maven
   <dependency>
     <groupId>org.kocakosm</groupId>
     <artifactId>jblake2</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
   </dependency>
 ```
 
 Gradle
 ```groovy
-  compile 'org.kocakosm:jblake2:0.3'
+  compile 'org.kocakosm:jblake2:0.4'
 ```
 
 *Note: module name for the Java Module System is `org.kocakosm.jblake2`.*
@@ -33,15 +33,22 @@ Usage
 Browse [API docs][13] for the most recent release.
 
 
-Contributing
-------------
+Reproducing/verifying a release build
+-------------------------------------
 
-If you would like to contribute code, fork the [repository][14] and send a pull
-request. When submitting code, please make sure to follow existing conventions
-and style in order to keep the code as readable as possible.
+JBlake2's release builds are reproducible/verifiable since version 0.4. This
+means that you can reproduce the released jar by building JBlake2 from source.
+For more information on reproducible builds, see the [reproducible-builds.org][14]
+website.
 
-Reporting errors or possible improvements is also a great way to help. Be sure
-to not duplicate an existing issue by first browsing the [issue tracker][15].
+To verify a particular release build, you'll need an x86_64 machine with GNU
+Bash (4.1+), Docker (17.05+), and, at your option, Mercurial or Git installed.
+First, clone the repository (either the [official Mercurial repository][15] or
+the [Git mirror][16]). Then, checkout the desired version tag. Finally, run the
+`verify-build.sh` script located at the project's root. This script recreates
+the build environment used to release the version, builds the project from
+source, downloads the released jar from Maven Central and checks that the build
+output matches (_bit for bit_) the downloaded artifact.
 
 
 License
@@ -56,14 +63,13 @@ This program is distributed in the hope that it will be useful, but _without any
 warranty;_ without even the implied warranty of _merchantability_ or _fitness
 for a particular purpose_.
 
-See the [GNU Lesser General Public License][16] for more details.
+See the [GNU Lesser General Public License][17] for more details.
 
 
 Contact
 -------
 
-If you have any question, feel free to send me an e-mail at kocakosm[@]gmail[dot]com
-or ping me on [twitter][17].
+kocakosm[@]gmail[dot]com
 
 
  [1]: https://img.shields.io/travis/kocakosm/jblake2.svg
@@ -78,8 +84,8 @@ or ping me on [twitter][17].
  [10]: https://www.gnu.org/licenses/lgpl.txt
  [11]: https://tools.ietf.org/html/rfc7693
  [12]: https://search.maven.org/remote_content?g=org.kocakosm&a=jblake2&v=LATEST
- [13]: http://www.javadoc.io/doc/org.kocakosm/jblake2
- [14]: https://bitbucket.org/kocakosm/jblake2
- [15]: https://bitbucket.org/kocakosm/jblake2/issues?status=new&status=open
- [16]: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
- [17]: https://twitter.com/kocakosm
+ [13]: https://www.javadoc.io/doc/org.kocakosm/jblake2
+ [14]: https://reproducible-builds.org
+ [15]: https://bitbucket.org/kocakosm/jblake2
+ [16]: https://github.com/kocakosm/jblake2
+ [17]: https://www.gnu.org/licenses/lgpl-3.0-standalone.html

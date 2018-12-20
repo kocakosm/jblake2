@@ -1,11 +1,16 @@
 [CHANGELOG]
 
+##  0.4  (2018-12-21)
+  - Added a script to easily reproduce/verify a release build
+  - Javadoc improvements
+  - Code cleanup
+
 ##  0.3  (2018-08-10)
-  - Blake2s addition
-  - Java 8 migration
-  - Module name for Java Module System
-  - Entirely deterministic build process
-  - Junit 5 migration
+  - Implemented Blake2s
+  - Migrated to Java 8
+  - Fixed module name for the Java Module System
+  - Made the build process entirely deterministic
+  - Migrated unit tests to Junit 5
   - Javadoc improvements
   - Code cleanup
 
