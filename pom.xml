@@ -5,7 +5,7 @@
   <groupId>org.kocakosm</groupId>
   <artifactId>jblake2</artifactId>
   <packaging>jar</packaging>
-  <version>0.4</version>
+  <version>0.5-SNAPSHOT</version>
 
   <name>JBlake2</name>
   <description>Pure Java implementation of Blake2 (RFC 7693)</description>
@@ -36,7 +36,7 @@
     <connection>scm:hg:https://bitbucket.org/kocakosm/jblake2</connection>
     <developerConnection>scm:hg:ssh://hg@bitbucket.org/kocakosm/jblake2</developerConnection>
     <url>https://bitbucket.org/kocakosm/jblake2</url>
-    <tag>0.4</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
