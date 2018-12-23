@@ -43,18 +43,6 @@ public interface Blake2
 	int length();
 
 	/**
-	 * Erases the key and resets the digest, thus making this instance
-	 * functionally equivalent to a newly created unkeyed digest. If this
-	 * instance is already unkeyed, calling this method has no other effect
-	 * than resetting the digest.
-	 * Please note that this method can only guarantee that the active copy
-	 * of the key is erased from memory. Indeed, in practice, an object may
-	 * have several copies of itself in physical RAM (garbage collection
-	 * algorithms tend to regularly "move" objects in memory).
-	 */
-	void burn();
-
-	/**
 	 * Returns a copy of this object.
 	 *
 	 * @return a copy of this object.
@@ -67,6 +55,20 @@ public interface Blake2
 	 * @return this object.
 	 */
 	Blake2 reset();
+
+	/**
+	 * Erases the key and resets the digest, thus making this instance
+	 * functionally equivalent to a newly created unkeyed digest. If this
+	 * instance is already unkeyed, calling this method has no other effect
+	 * than resetting the digest.
+	 * Please note that this method can only guarantee that the active copy
+	 * of the key is erased from memory. Indeed, in practice, an object may
+	 * have several copies of itself in physical RAM (garbage collection
+	 * algorithms tend to regularly "move" objects in memory).
+	 *
+	 * @return this object.
+	 */
+	Blake2 burn();
 
 	/**
 	 * Updates the digest using the given byte.

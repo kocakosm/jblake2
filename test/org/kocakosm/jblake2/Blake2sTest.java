@@ -98,15 +98,6 @@ public final class Blake2sTest
 	}
 
 	@Test
-	public void testBurn()
-	{
-		Blake2s blake2s = new Blake2s(HASH.length, PRNG.nextBytes(32));
-		blake2s.update(DATA);
-		blake2s.burn();
-		assertArrayEquals(HASH, blake2s.digest(DATA));
-	}
-
-	@Test
 	public void testCopy()
 	{
 		Blake2s blake2s = new Blake2s(HASH.length);
@@ -131,6 +122,22 @@ public final class Blake2sTest
 	{
 		Blake2s blake2s = new Blake2s(HASH.length);
 		assertSame(blake2s, blake2s.reset());
+	}
+
+	@Test
+	public void testBurn()
+	{
+		Blake2s blake2s = new Blake2s(HASH.length, PRNG.nextBytes(32));
+		blake2s.update(DATA);
+		blake2s.burn();
+		assertArrayEquals(HASH, blake2s.digest(DATA));
+	}
+
+	@Test
+	public void testBurnReturnsSameInstance()
+	{
+		Blake2s blake2s = new Blake2s(HASH.length);
+		assertSame(blake2s, blake2s.burn());
 	}
 
 	@Test

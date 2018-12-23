@@ -123,15 +123,6 @@ public final class Blake2s implements Blake2
 	}
 
 	@Override
-	public void burn()
-	{
-		Arrays.fill(key, (byte) 0);
-		Arrays.fill(buffer, (byte) 0); // buffer may contain the key...
-		key = new byte[0];
-		reset();
-	}
-
-	@Override
 	public Blake2s copy()
 	{
 		return new Blake2s(this);
@@ -151,6 +142,16 @@ public final class Blake2s implements Blake2
 		} else {
 			c = 0;
 		}
+		return this;
+	}
+
+	@Override
+	public Blake2s burn()
+	{
+		Arrays.fill(key, (byte) 0);
+		Arrays.fill(buffer, (byte) 0); // buffer may contain the key...
+		key = new byte[0];
+		reset();
 		return this;
 	}
 
