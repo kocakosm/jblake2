@@ -36,6 +36,13 @@ public interface Blake2
 	String algorithm();
 
 	/**
+	 * Returns the digest's length (in bytes).
+	 *
+	 * @return the digest's length (in bytes).
+	 */
+	int length();
+
+	/**
 	 * Erases the key and resets the digest, thus making this instance
 	 * functionally equivalent to a newly created unkeyed digest. If this
 	 * instance is already unkeyed, calling this method has no other effect
@@ -53,13 +60,6 @@ public interface Blake2
 	 * @return a copy of this object.
 	 */
 	Blake2 copy();
-
-	/**
-	 * Returns the digest's length (in bytes).
-	 *
-	 * @return the digest's length (in bytes).
-	 */
-	int length();
 
 	/**
 	 * Resets the digest. Note that this does not erase the key.

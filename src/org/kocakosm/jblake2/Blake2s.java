@@ -117,6 +117,12 @@ public final class Blake2s implements Blake2
 	}
 
 	@Override
+	public int length()
+	{
+		return digestLength;
+	}
+
+	@Override
 	public void burn()
 	{
 		Arrays.fill(key, (byte) 0);
@@ -129,12 +135,6 @@ public final class Blake2s implements Blake2
 	public Blake2s copy()
 	{
 		return new Blake2s(this);
-	}
-
-	@Override
-	public int length()
-	{
-		return digestLength;
 	}
 
 	@Override

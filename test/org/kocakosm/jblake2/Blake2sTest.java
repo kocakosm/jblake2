@@ -91,6 +91,13 @@ public final class Blake2sTest
 	}
 
 	@Test
+	public void testLength()
+	{
+		int length = PRNG.nextInt(1, 33);
+		assertEquals(length, new Blake2s(length).length());
+	}
+
+	@Test
 	public void testBurn()
 	{
 		Blake2s blake2s = new Blake2s(HASH.length, PRNG.nextBytes(32));
@@ -105,17 +112,10 @@ public final class Blake2sTest
 		Blake2s blake2s = new Blake2s(HASH.length);
 		blake2s.update(DATA);
 		Blake2s copy = blake2s.copy();
-		assertFalse(blake2s == copy);
+		assertNotSame(copy, blake2s);
 		blake2s.update(DATA);
 		copy.update(DATA);
 		assertArrayEquals(blake2s.digest(), copy.digest());
-	}
-
-	@Test
-	public void testLength()
-	{
-		int length = PRNG.nextInt(1, 33);
-		assertEquals(length, new Blake2s(length).length());
 	}
 
 	@Test
@@ -124,6 +124,13 @@ public final class Blake2sTest
 		Blake2s blake2s = new Blake2s(HASH.length);
 		blake2s.update(DATA).reset();
 		assertArrayEquals(HASH, blake2s.digest(DATA));
+	}
+
+	@Test
+	public void testResetReturnsSameInstance()
+	{
+		Blake2s blake2s = new Blake2s(HASH.length);
+		assertSame(blake2s, blake2s.reset());
 	}
 
 	@Test
@@ -148,6 +155,15 @@ public final class Blake2sTest
 		Blake2s blake2s = new Blake2s(HASH.length);
 		Executable toTest = () -> blake2s.update(new byte[0], 0, 1);
 		assertThrows(IndexOutOfBoundsException.class, toTest);
+	}
+
+	@Test
+	public void testUpdateReturnsSameInstance()
+	{
+		Blake2s blake2s = new Blake2s(HASH.length);
+		assertSame(blake2s, blake2s.update(DATA));
+		assertSame(blake2s, blake2s.update(DATA[0]));
+		assertSame(blake2s, blake2s.update(DATA, 1, 1));
 	}
 
 	@Test

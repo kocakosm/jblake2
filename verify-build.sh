@@ -45,11 +45,11 @@ check_cpu_architecture()
 check_docker_version()
 {
 	if ! [[ -x $(command -v docker) ]]; then
-		printf 'Error: you need docker to run this script\n' >&2
+		printf 'Error: you need Docker to run this script\n' >&2
 		exit 1
 	fi
 	if [[ "$(docker version --format '{{.Server.Version}}')" < "${MIN_DOCKER_VERSION}" ]]; then
-		printf 'Error: you need docker version %s+ to run this script\n' "${MIN_DOCKER_VERSION}" >&2
+		printf 'Error: you need Docker version %s+ to run this script\n' "${MIN_DOCKER_VERSION}" >&2
 		exit 1
 	fi
 }
@@ -73,7 +73,7 @@ write_entrypoint()
 
 	check_version()
 	{
-		local readonly jblake2_version=${1}
+		local -r jblake2_version=${1}
 		if [[ "${jblake2_version}" = *-SNAPSHOT ]]; then
 			printf 'Error: SNAPSHOT version\n' >&2
 			exit 1
@@ -86,13 +86,13 @@ write_entrypoint()
 
 	sha256sum()
 	{
-		local readonly file=${1}
+		local -r file=${1}
 		command sha256sum "${file}" | cut -d ' ' -f 1
 	}
 
 	download_jar_from_central()
 	{
-		local readonly jblake2_version=${1}
+		local -r jblake2_version=${1}
 		curl --silent --location --remote-name \
 			"${MAVEN_CENTRAL_URL}/org/kocakosm/jblake2/${jblake2_version}/jblake2-${jblake2_version}.jar"
 		printf 'jblake2-%s.jar' "${jblake2_version}"
@@ -106,17 +106,17 @@ write_entrypoint()
 
 	main()
 	{
-		printf 'reading version...\t\t'
-		local readonly version=$(read_version)
+		printf 'Reading version...\t\t'
+		local -r version=$(read_version)
 		printf '%s\n' "${version}"
 		check_version "${version}"
-		printf 'downloading jar from central...\t'
-		local readonly downloaded_jar=$(download_jar_from_central "${version}")
-		local readonly downloaded_jar_hash=$(sha256sum "${downloaded_jar}")
+		printf 'Downloading jar from central...\t'
+		local -r downloaded_jar=$(download_jar_from_central "${version}")
+		local -r downloaded_jar_hash=$(sha256sum "${downloaded_jar}")
 		printf 'sha256:%s\n' "${downloaded_jar_hash}"
-		printf 'building jar from source...\t'
-		local readonly built_jar=$(build_jar_from_source)
-		local readonly built_jar_hash=$(sha256sum "${built_jar}")
+		printf 'Building jar from source...\t'
+		local -r built_jar=$(build_jar_from_source)
+		local -r built_jar_hash=$(sha256sum "${built_jar}")
 		printf 'sha256:%s\n' "${built_jar_hash}"
 		if ! [[ "${built_jar_hash}" = "${downloaded_jar_hash}" ]]; then
 			printf 'Hashes mismatch: JBlake2 %s could not be verified\n' "${version}"
@@ -160,7 +160,7 @@ run_build_container()
 
 cleanup()
 {
-	local readonly result=$?
+	local -r result=${?}
 	docker image rm "${BUILD_IMAGE_NAME}" "${BASE_IMAGE_NAME}" > /dev/null 2>&1 || true
 	rm "${ENTRYPOINT_SCRIPT_NAME}" > /dev/null 2>&1 || true
 	exit ${result}
@@ -169,15 +169,15 @@ cleanup()
 main()
 {
 	trap cleanup EXIT ERR
-	printf 'checking prerequisites...\t'
+	printf 'Checking prerequisites...\t'
 	check_bash_version
 	check_cpu_architecture
 	check_docker_version
 	printf 'OK\n'
-	printf 'building docker image...\t'
+	printf 'Building docker image...\t'
 	write_entrypoint
 	build_docker_image
-	printf 'running build container...\n'
+	printf 'Running build container...\n'
 	run_build_container
 }
 
