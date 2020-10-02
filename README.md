@@ -38,17 +38,15 @@ Reproducing/verifying a release build
 
 JBlake2's release builds are reproducible/verifiable since version 0.4. This
 means that you can reproduce the released jar by building JBlake2 from source.
-For more information on reproducible builds, see the [reproducible-builds.org][14]
-website.
+See [reproducible-builds.org][14] for more information.
 
 To verify a particular release build, you'll need an x86_64 machine with GNU
-Bash (4.1+), Docker (17.05+), and, at your option, Mercurial or Git installed.
-First, clone the repository (either the [official Mercurial repository][15] or
-the [Git mirror][16]). Then, checkout the desired version tag and run the
-`verify-build.sh` script located at the project's root. This script recreates
-the build environment used to release the version, builds the project from
-source, downloads the released jar from Maven Central and checks that the build
-output matches (*bit for bit*) the downloaded artifact.
+Bash (4.1+), Docker (17.05+), and Git installed.
+First, clone the [repository][15] and checkout the desired version tag. Then,
+run the `verify-build.sh` script located at the project's root. This script
+recreates the build environment used to release the version, builds the project
+from source, downloads the released jar from Maven Central and checks that the
+build output matches (*bit for bit*) the downloaded artifact.
 
 
 License
@@ -63,7 +61,7 @@ This program is distributed in the hope that it will be useful, but _without any
 warranty;_ without even the implied warranty of _merchantability_ or _fitness
 for a particular purpose_.
 
-See the [GNU Lesser General Public License][17] for more details.
+See the [GNU Lesser General Public License][16] for more details.
 
 
 Contact
@@ -86,6 +84,5 @@ kocakosm[@]gmail[dot]com
  [12]: https://search.maven.org/remote_content?g=org.kocakosm&a=jblake2&v=LATEST
  [13]: https://www.javadoc.io/doc/org.kocakosm/jblake2
  [14]: https://reproducible-builds.org
- [15]: https://bitbucket.org/kocakosm/jblake2
- [16]: https://github.com/kocakosm/jblake2
- [17]: https://www.gnu.org/licenses/lgpl-3.0-standalone.html
+ [15]: https://github.com/kocakosm/jblake2
+ [16]: https://www.gnu.org/licenses/lgpl-3.0-standalone.html

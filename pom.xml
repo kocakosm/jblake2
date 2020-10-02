@@ -4,12 +4,12 @@
 
   <groupId>org.kocakosm</groupId>
   <artifactId>jblake2</artifactId>
-  <packaging>jar</packaging>
   <version>0.5-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <name>JBlake2</name>
   <description>Pure Java implementation of Blake2 (RFC 7693)</description>
-  <url>https://bitbucket.org/kocakosm/jblake2</url>
+  <url>https://github.com/kocakosm/jblake2</url>
   <inceptionYear>2017</inceptionYear>
 
   <licenses>
@@ -33,15 +33,15 @@
   </developers>
 
   <scm>
-    <connection>scm:hg:https://bitbucket.org/kocakosm/jblake2</connection>
-    <developerConnection>scm:hg:ssh://hg@bitbucket.org/kocakosm/jblake2</developerConnection>
-    <url>https://bitbucket.org/kocakosm/jblake2</url>
+    <url>https://github.com/kocakosm/jblake2</url>
+    <connection>scm:git:https://github.com/kocakosm/jblake2.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/kocakosm/jblake2.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
-    <system>Bitbucket</system>
-    <url>https://bitbucket.org/kocakosm/jblake2/issues</url>
+    <system>Github</system>
+    <url>https://github.com/kocakosm/jblake2/issues</url>
   </issueManagement>
 
   <distributionManagement>
