@@ -44,11 +44,11 @@ website.
 To verify a particular release build, you'll need an x86_64 machine with GNU
 Bash (4.1+), Docker (17.05+), and, at your option, Mercurial or Git installed.
 First, clone the repository (either the [official Mercurial repository][15] or
-the [Git mirror][16]). Then, checkout the desired version tag. Finally, run the
+the [Git mirror][16]). Then, checkout the desired version tag and run the
 `verify-build.sh` script located at the project's root. This script recreates
 the build environment used to release the version, builds the project from
 source, downloads the released jar from Maven Central and checks that the build
-output matches (_bit for bit_) the downloaded artifact.
+output matches (*bit for bit*) the downloaded artifact.
 
 
 License
