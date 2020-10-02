@@ -89,7 +89,7 @@ public final class PreconditionsTest
 		assertThrows(AssertionError.class, () -> invoke(constructor));
 	}
 
-	private void invoke(Constructor constructor) throws Throwable
+	private void invoke(Constructor<?> constructor) throws Throwable
 	{
 		try {
 			constructor.newInstance();

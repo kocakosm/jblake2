@@ -100,7 +100,7 @@ write_entrypoint()
 
 	build_jar_from_source()
 	{
-		mvn --quiet clean package -DskipTests
+		mvn --quiet clean package -Dmaven.test.skip=true
 		ls target/jblake2-*.jar
 	}
 

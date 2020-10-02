@@ -99,7 +99,7 @@ public final class LittleEndianTest
 		assertThrows(AssertionError.class, () -> invoke(constructor));
 	}
 
-	private void invoke(Constructor constructor) throws Throwable
+	private void invoke(Constructor<?> constructor) throws Throwable
 	{
 		try {
 			constructor.newInstance();

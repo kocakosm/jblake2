@@ -69,4 +69,10 @@ final class TestVectors
 			return BaseEncoding.BASE_16.decode(json.getAsString());
 		}
 	}
+
+	private TestVectors()
+	{
+		// See "Effective Java" (Item 4)
+		throw new AssertionError("Not meant to be instantiated");
+	}
 }
