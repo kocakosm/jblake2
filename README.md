@@ -1,4 +1,4 @@
-JBlake2 [![Build][1]][2] [![Coverage][3]][4] [![Version][5]][6] [![Javadocs][7]][8] [![License][9]][10]
+JBlake2 [![CI][1]][2] [![Coverage][3]][4] [![Version][5]][6] [![Javadocs][7]][8] [![License][9]][10]
 =======================================================================================================
 
 A pure Java (8+) implementation of BLAKE2 ([RFC 7693][11]).
@@ -70,8 +70,8 @@ Contact
 kocakosm[@]gmail[dot]com
 
 
- [1]: https://img.shields.io/travis/kocakosm/jblake2.svg
- [2]: https://travis-ci.org/kocakosm/jblake2
+ [1]: https://github.com/kocakosm/jblake2/actions/workflows/ci.yml/badge.svg
+ [2]: https://github.com/kocakosm/jblake2/actions/workflows/ci.yml
  [3]: https://img.shields.io/coveralls/kocakosm/jblake2.svg
  [4]: https://coveralls.io/github/kocakosm/jblake2
  [5]: https://img.shields.io/maven-central/v/org.kocakosm/jblake2.svg
