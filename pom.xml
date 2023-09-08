@@ -4,7 +4,7 @@
 
   <groupId>org.kocakosm</groupId>
   <artifactId>jblake2</artifactId>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.5</version>
 
   <name>JBlake2</name>
   <description>Pure Java implementation of Blake2 (RFC 7693)</description>
@@ -35,7 +35,7 @@
     <url>https://github.com/kocakosm/jblake2</url>
     <connection>scm:git:https://github.com/kocakosm/jblake2.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/kocakosm/jblake2.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>0.5</tag>
   </scm>
 
   <issueManagement>
@@ -53,7 +53,7 @@
   <properties>
     <maven.compiler.release>8</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-09-08T08:43:23Z</project.build.outputTimestamp>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
