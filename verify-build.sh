@@ -22,7 +22,7 @@ IFS=$'\n\t'
 readonly ARCH='x86_64'
 readonly MIN_BASH_VERSION='4.1'
 readonly MIN_DOCKER_VERSION='17.05'
-readonly BASE_IMAGE_NAME='amd64/debian:stretch'
+readonly BASE_IMAGE_NAME='amd64/debian:bullseye'
 readonly BUILD_IMAGE_NAME='jblake2-build'
 readonly ENTRYPOINT_SCRIPT_NAME='entrypoint.sh'
 
@@ -139,12 +139,11 @@ build_docker_image()
 	# available versions of a particular package.
 	docker build --quiet --tag "${BUILD_IMAGE_NAME}" . -f -<<- EOF
 	FROM "${BASE_IMAGE_NAME}"
-	RUN printf 'deb http://snapshot.debian.org/archive/debian/20181220T210254Z/ stretch main' > /etc/apt/sources.list \
+	RUN printf 'deb http://snapshot.debian.org/archive/debian/20230908T030331Z/ bullseye main' > /etc/apt/sources.list \
 		&& apt update && apt install -y --no-install-recommends \
 		curl \
-		maven=3.3.9-4 \
-		openjdk-8-jdk-headless=8u181-b13-2~deb9u1 \
-		openjdk-8-jre-headless=8u181-b13-2~deb9u1 \
+		maven=3.6.3-5 \
+		openjdk-17-jdk-headless=17.0.6+10-1~deb11u1 \
 		&& rm -rf /var/lib/apt/lists/*
 	COPY . /usr/src/jblake2
 	WORKDIR /usr/src/jblake2

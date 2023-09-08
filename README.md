@@ -1,5 +1,5 @@
 JBlake2 [![CI][1]][2] [![Coverage][3]][4] [![Version][5]][6] [![Javadocs][7]][8] [![License][9]][10]
-=======================================================================================================
+====================================================================================================
 
 A pure Java (8+) implementation of BLAKE2 ([RFC 7693][11]).
 
@@ -7,21 +7,18 @@ A pure Java (8+) implementation of BLAKE2 ([RFC 7693][11]).
 Getting started
 ---------------
 
-JBlake2 binaries are available from Maven Central repositories.
-Download the [latest jar][12] or get it directly from your favorite build tool:
-
 Maven
 ```xml
   <dependency>
     <groupId>org.kocakosm</groupId>
     <artifactId>jblake2</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
   </dependency>
 ```
 
 Gradle
 ```groovy
-  compile 'org.kocakosm:jblake2:0.4'
+  compile 'org.kocakosm:jblake2:0.5'
 ```
 
 *Note: module name for the Java Module System is `org.kocakosm.jblake2`.*
@@ -30,7 +27,7 @@ Gradle
 Usage
 -----
 
-Browse [API docs][13] for the most recent release.
+Browse [API docs][12] for the most recent release.
 
 
 Reproducing/verifying a release build
@@ -38,11 +35,11 @@ Reproducing/verifying a release build
 
 JBlake2's release builds are reproducible/verifiable since version 0.4. This
 means that you can reproduce the released jar by building JBlake2 from source.
-See [reproducible-builds.org][14] for more information.
+See [reproducible-builds.org][13] for more information.
 
 To verify a particular release build, you'll need an x86_64 machine with GNU
 Bash (4.1+), Docker (17.05+), and Git installed.
-First, clone the [repository][15] and checkout the desired version tag. Then,
+First, clone the [repository][14] and checkout the desired version tag. Then,
 run the `verify-build.sh` script located at the project's root. This script
 recreates the build environment used to release the version, builds the project
 from source, downloads the released jar from Maven Central and checks that the
@@ -61,7 +58,7 @@ This program is distributed in the hope that it will be useful, but _without any
 warranty;_ without even the implied warranty of _merchantability_ or _fitness
 for a particular purpose_.
 
-See the [GNU Lesser General Public License][16] for more details.
+See the [GNU Lesser General Public License][15] for more details.
 
 
 Contact
@@ -81,8 +78,7 @@ kocakosm[@]gmail[dot]com
  [9]: https://img.shields.io/badge/license-LGPL_v3-4383c3.svg
  [10]: https://www.gnu.org/licenses/lgpl.txt
  [11]: https://tools.ietf.org/html/rfc7693
- [12]: https://search.maven.org/remote_content?g=org.kocakosm&a=jblake2&v=LATEST
- [13]: https://www.javadoc.io/doc/org.kocakosm/jblake2
- [14]: https://reproducible-builds.org
- [15]: https://github.com/kocakosm/jblake2
- [16]: https://www.gnu.org/licenses/lgpl-3.0-standalone.html
+ [12]: https://www.javadoc.io/doc/org.kocakosm/jblake2
+ [13]: https://reproducible-builds.org
+ [14]: https://github.com/kocakosm/jblake2
+ [15]: https://www.gnu.org/licenses/lgpl-3.0-standalone.html
