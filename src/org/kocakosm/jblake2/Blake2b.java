@@ -200,7 +200,7 @@ public final class Blake2b implements Blake2
 		processBuffer(true);
 		byte[] out = new byte[digestLength];
 		int i = 0;
-		while (i < h.length && i * 8 < digestLength - 8) {
+		while (i * 8 < digestLength - 8) {
 			LittleEndian.encode(h[i], out, i * 8);
 			i++;
 		}
