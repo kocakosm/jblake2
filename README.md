@@ -1,7 +1,7 @@
-JBlake2 [![CI][1]][2] [![Coverage][3]][4] [![Version][5]][6] [![Javadocs][7]][8] [![License][9]][10]
-====================================================================================================
+JBlake2 [![CI][1]][2] [![Coverage][3]][4] [![Reproducible Builds][5]][6] [![Version][7]][8] [![Javadocs][9]][10] [![License][11]][12]
+=====================================================================================================================================
 
-A pure Java (8+) implementation of BLAKE2 ([RFC 7693][11]).
+A pure Java (8+) implementation of BLAKE2 ([RFC 7693][13]).
 
 
 Getting started
@@ -27,23 +27,15 @@ Gradle
 Usage
 -----
 
-Browse [API docs][12] for the most recent release.
+Browse [API docs][10] for the most recent release.
 
 
-Reproducing/verifying a release build
--------------------------------------
+Reproducibility
+---------------
 
-JBlake2's release builds are reproducible/verifiable since version 0.4. This
-means that you can reproduce the released jar by building JBlake2 from source.
-See [reproducible-builds.org][13] for more information.
-
-To verify a particular release build, you'll need an x86_64 machine with GNU
-Bash (4.1+), Docker (17.05+), and Git installed.
-First, clone the [repository][14] and checkout the desired version tag. Then,
-run the `verify-build.sh` script located at the project's root. This script
-recreates the build environment used to release the version, builds the project
-from source, downloads the released jar from Maven Central and checks that the
-build output matches (*bit for bit*) the downloaded artifact.
+JBlake2 builds are reproducible since version 0.4. Released artifacts are
+verified by the [Reproducible Central][14] project, the Java part of the
+[Reproducible Builds][15] effort.
 
 
 License
@@ -58,7 +50,7 @@ This program is distributed in the hope that it will be useful, but _without any
 warranty;_ without even the implied warranty of _merchantability_ or _fitness
 for a particular purpose_.
 
-See the [GNU Lesser General Public License][15] for more details.
+See the [GNU Lesser General Public License][12] for more details.
 
 
 Contact
@@ -71,14 +63,14 @@ kocakosm[@]gmail[dot]com
  [2]: https://github.com/kocakosm/jblake2/actions/workflows/ci.yml
  [3]: https://img.shields.io/coveralls/kocakosm/jblake2.svg
  [4]: https://coveralls.io/github/kocakosm/jblake2
- [5]: https://img.shields.io/maven-central/v/org.kocakosm/jblake2.svg
- [6]: https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.kocakosm%22%20AND%20a%3A%22jblake2%22
- [7]: https://javadoc.io/badge/org.kocakosm/jblake2.svg
- [8]: https://javadoc.io/doc/org.kocakosm/jblake2
- [9]: https://img.shields.io/badge/license-LGPL_v3-4383c3.svg
- [10]: https://www.gnu.org/licenses/lgpl.txt
- [11]: https://tools.ietf.org/html/rfc7693
- [12]: https://www.javadoc.io/doc/org.kocakosm/jblake2
- [13]: https://reproducible-builds.org
- [14]: https://github.com/kocakosm/jblake2
- [15]: https://www.gnu.org/licenses/lgpl-3.0-standalone.html
+ [5]: https://img.shields.io/badge/reproducible_builds-ok-success?labelColor=1e5b96
+ [6]: https://github.com/jvm-repo-rebuild/reproducible-central#org.kocakosm:jblake2
+ [7]: https://img.shields.io/maven-central/v/org.kocakosm/jblake2.svg
+ [8]: https://central.sonatype.com/search?q=g%3Aorg.kocakosm+a%3Ajblake2
+ [9]: https://javadoc.io/badge/org.kocakosm/jblake2.svg
+ [10]: https://javadoc.io/doc/org.kocakosm/jblake2
+ [11]: https://img.shields.io/badge/license-LGPL_v3-4383c3.svg
+ [12]: https://www.gnu.org/licenses/lgpl-3.0.txt
+ [13]: https://tools.ietf.org/html/rfc7693
+ [14]: https://github.com/jvm-repo-rebuild/reproducible-central
+ [15]: https://reproducible-builds.org
